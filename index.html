@@ -1,198 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>about me</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Grid Effect</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+        /* The Neon Grid Background */
+        #grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(0, 255, 255, 0.1) 25%, rgba(0, 255, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, 0.1) 75%, rgba(0, 255, 255, 0.1) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(0, 255, 255, 0.1) 25%, rgba(0, 255, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, 0.1) 75%, rgba(0, 255, 255, 0.1) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            z-index: 1;
+        }
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: radial-gradient(circle at top, #1f2933, #0b0f14);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      color: white;
-    }
+        /* The glowing mouse interaction effect */
+        #cursor-light {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none; /* Allows clicks to pass through */
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            transition: opacity 0.2s;
+        }
 
-    /* MENU CONTAINER */
-    .menu {
-      width: 380px;
-      background: rgba(20, 25, 35, 0.85);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-      opacity: 0;
-      transform: translateY(30px) scale(0.98);
-      animation: menuFadeIn 1.2s ease forwards;
-    }
-
-    @keyframes menuFadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    /* PROFILE */
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .pfp {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .name {
-      font-size: 1.4rem;
-      font-weight: 700;
-    }
-
-    .description {
-      font-size: 0.9rem;
-      color: #b6c0cc;
-      margin-top: 4px;
-    }
-
-    /* TIERS */
-    .tiers-title {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-      font-weight: 600;
-     Ժ
-    }
-
-    .tier-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .tier {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 14px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.06);
-      animation: tierSlideIn 0.8s ease forwards;
-      opacity: 0;
-    }
-.tier:nth-child(1) { animation-delay: 0.3s; }
-.tier:nth-child(2) { animation-delay: 0.45s; }
-.tier:nth-child(3) { animation-delay: 0.6s; }
-.tier:nth-child(4) { animation-delay: 0.75s; }
-.tier:nth-child(5) { animation-delay: 0.9s; }
-.tier:nth-child(6) { animation-delay: 1.05s; }
-.tier:nth-child(7) { animation-delay: 1.2s; }
-.tier:nth-child(8) { animation-delay: 1.35s; }
-
-
-    @keyframes tierSlideIn {
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-    }
-
-    .mode {
-      font-weight: 500;
-      color: #dbe3ee;
-    }
-
-    .rank {
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #5865f2, #8b5cf6);
-      font-size: 0.85rem;
-    }
-  </style>
+        /* Text Styling */
+        h1 {
+            position: relative;
+            z-index: 3;
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px #0ff,
+                0 0 40px #0ff,
+                0 0 80px #0ff;
+            pointer-events: none;
+            user-select: none;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="menu">
+    <div id="grid"></div>
+    <div id="cursor-light"></div>
+    <h1>This website does not work.</h1>
 
-    <!-- PROFILE SECTION -->
-    <div class="profile">
-      <img
-        class="pfp"
-        src="https://yt3.googleusercontent.com/2xcMoy_N90x5HarW3h9fWlfzLlFh6DwRRE2-xR_BJEpTo-jZCL1OGM-61D_IEbkEpVwAxaVkxQ=s160-c-k-c0x00ffffff-no-rj"
-        alt="Discord PFP"
-      />
-      <div>
-        <div class="name">komican</div>
-        <div class="description">1 Goal: HT3 in mace. before dming me: https://nohello.net</div>
-      </div>
-    </div>
+    <script>
+        const cursorLight = document.getElementById('cursor-light');
 
-    <!-- TIERS SECTION -->
-    <div class="tiers-title">MCTier Ranks</div>
-
-    <div class="tier-list">
-      <div class="tier">
-        <span class="mode">Vanilla</span>
-        <span class="rank">UNRANKED</span>
-      </div>
-      <div class="tier">
-        <span class="mode">UHC</span>
-        <span class="rank">UNRANKED</span>
-      </div>
-      <div class="tier">
-        <span class="mode">NethPot</span>
-        <span class="rank">UNRANKED</span>
-      </div>
-      <div class="tier">
-        <span class="mode">NethOP</span>
-        <span class="rank">UNRANKED</span>
-      </div>
-      <div class="tier">
-        <span class="mode">SMP</span>
-        <span class="rank">UNRANKED</span>
-      </div>
-      <div class="tier">
-        <span class="mode">Sword</span>
-        <span class="rank">HT5</span>
-      </div>
-      <div class="tier">
-        <span class="mode">Axe</span>
-        <span class="rank">UNRANKED</span>
-      </div>
-      <div class="tier">
-        <span class="mode">Mace</span>
-        <span class="rank">LT5</span>
-      </div>
-    </div>
-
-  </div>
-
+        // Move the light effect with the mouse
+        document.addEventListener('mousemove', (e) => {
+            cursorLight.style.left = e.clientX + 'px';
+            cursorLight.style.top = e.clientY + 'px';
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
